@@ -1,0 +1,17 @@
+$color-fondo: #f4f6fb;
+$color-principal: #2d5bff;
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: $color-fondo;
+}
+
+button {
+  background: $color-principal;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
