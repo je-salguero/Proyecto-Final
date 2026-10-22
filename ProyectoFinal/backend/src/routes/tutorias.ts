@@ -89,6 +89,35 @@ async function fncListarMisTutorias(req: SolicitudAutenticada, res: Response): P
   }
 }
 
+async function fncObtenerTutoria(req: SolicitudAutenticada, res: Response): Promise<void> {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id)) {
+      res.status(400).json({ mensaje: "Id de tutoría inválido" });
+      return;
+    }
+
+    const tutoria = await Tutoria.findById(id);
+    if (!tutoria || !tutoria.activa) {
+      res.status(404).json({ mensaje: "La tutoría no está disponible" });
+      return;
+    }
+
+    const tutor = await Usuario.findById(tutoria.tutor);
+    if (!tutor || !tutor.aprobado || tutor.estado !== "activo") {
+      res.status(404).json({ mensaje: "El tutor no está disponible" });
+      return;
+    }
+
+    await tutoria.populate("tutor", "nombre foto biografia");
+    await tutoria.populate("categoria", "nombre");
+    res.json(tutoria);
+  } catch (error) {
+    console.log("Error al obtener tutoría:", error);
+    res.status(500).json({ mensaje: "Error al obtener la tutoría" });
+  }
+}
+
 async function fncCrearTutoria(req: SolicitudAutenticada, res: Response): Promise<void> {
   try {
     const mensaje = await fncValidarDatosTutoria(req.body);
@@ -159,6 +188,7 @@ async function fncActualizarTutoria(req: SolicitudAutenticada, res: Response): P
 
 router.get("/", fncValidarToken, fncListarTutorias);
 router.get("/mias", fncValidarToken, fncValidarTutorAprobado, fncListarMisTutorias);
+router.get("/:id", fncValidarToken, fncObtenerTutoria);
 router.post("/", fncValidarToken, fncValidarTutorAprobado, fncCrearTutoria);
 router.put("/:id", fncValidarToken, fncValidarTutorAprobado, fncActualizarTutoria);
 

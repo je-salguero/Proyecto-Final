@@ -1,0 +1,48 @@
+$color-principal: #2d5bff;
+
+.estrellas {
+  &__estrella {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 1.6rem !important;
+    color: #c8c8c8 !important;
+    cursor: pointer;
+    padding: 0 2px !important;
+    margin: 0 !important;
+    min-width: auto !important;
+
+    &:disabled { cursor: default; }
+    &--llena { color: #f5b301 !important; }
+  }
+}
+
+.resena-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+
+  &__comentario { padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-family: inherit; }
+  &__error { color: #c62828; margin: 0; }
+  &__gracias { color: #2e7d32; margin: 8px 0 0; }
+  &__boton {
+    align-self: flex-start;
+    background: $color-principal;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+}
+
+.resenas {
+  &__resumen { font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+  &__vacio { color: #777; }
+  &__item { border-bottom: 1px solid #eee; padding: 10px 0; }
+  &__cabecera { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+}

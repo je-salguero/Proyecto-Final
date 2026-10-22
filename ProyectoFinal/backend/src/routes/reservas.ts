@@ -176,6 +176,17 @@ async function fncCrearReserva(req: SolicitudAutenticada, res: Response): Promis
       costoTraslado = fncRedondear(distanciaKm * tutoria.tarifaKm * totalSesiones, 2);
     }
     const total = fncRedondear(costoClases + costoTraslado, 2);
+    if (req.query.simular === "true") {
+      res.json({
+        totalSesiones: totalSesiones,
+        distanciaKm: distanciaKm,
+        costoClases: costoClases,
+        costoTraslado: costoTraslado,
+        total: total,
+        sesiones: sesiones,
+      });
+      return;
+    }
 
     const reserva = new Reserva({
       tutoria: tutoria._id,

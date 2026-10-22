@@ -7,6 +7,7 @@ import PanelDisponibilidad from "../components/PanelDisponibilidad";
 import { fncObtenerUsuarioGuardado, fncPeticion } from "../services/api";
 import type { Usuario } from "../services/api";
 import "../styles/tutor.scss";
+import PanelResenas from "../components/PanelResenas";
 
 function Tutor() {
   const navegar = useNavigate();
@@ -74,12 +75,17 @@ function Tutor() {
             <button value="disponibilidad" className={fncClasePestana("disponibilidad")} onClick={fncCambiarPestana}>
               Disponibilidad
             </button>
+            <button value="resenas" className={fncClasePestana("resenas")} onClick={fncCambiarPestana}>
+              Mis reseñas
+            </button>
           </div>
 
           <div className="tutor__panel">
             {pestana === "reservas" && <PanelReservasTutor />}
             {pestana === "ofertas" && <PanelOfertas />}
             {pestana === "disponibilidad" && <PanelDisponibilidad />}
+            {pestana === "reservas" && <PanelReservasTutor />}
+            {pestana === "resenas" && <PanelResenas />} 
           </div>
         </>
       )}

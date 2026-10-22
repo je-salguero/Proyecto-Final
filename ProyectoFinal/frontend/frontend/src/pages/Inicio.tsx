@@ -27,6 +27,15 @@ function Inicio() {
     navegar("/admin");
   }
 
+    // Solo se muestran a los estudiantes
+  function fncIrAExplorar(): void {
+    navegar("/tutorias");
+  }
+
+  function fncIrAMisReservas(): void {
+    navegar("/mis-reservas");
+  }
+
   function fncIrAlPanelTutor(): void {
     navegar("/tutor");
   }
@@ -52,6 +61,12 @@ function Inicio() {
       {usuario.rol === "tutor" && (
         <button onClick={fncIrAlPanelTutor}>Panel de tutor</button>
       )}     
+            {usuario.rol === "estudiante" && (
+        <>
+          <button onClick={fncIrAExplorar}>Explorar tutorías</button>
+          <button onClick={fncIrAMisReservas}>Mis reservas</button>
+        </>
+      )}
       <button onClick={fncCerrarSesion}>Cerrar sesión</button>
     </div>
   );

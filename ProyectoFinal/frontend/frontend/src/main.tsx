@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App";
 import "./styles/global.scss";
+import "./styles/resenas.scss";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

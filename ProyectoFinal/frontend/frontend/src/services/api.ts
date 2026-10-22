@@ -254,3 +254,111 @@ export async function fncResponderReserva(id: string, aceptar: boolean): Promise
 export async function fncCancelarReserva(id: string): Promise<void> {
   await fncPeticionJson("/api/reservas/" + id + "/cancelar", { method: "PUT" });
 }
+
+export function fncRutaSiNoTieneRol(rol: string): string {
+  const usuario = fncObtenerUsuarioGuardado();
+  if (!usuario) {
+    return "/login";
+  }
+  if (usuario.rol !== rol) {
+    return "/inicio";
+  }
+  return "";
+}
+
+export interface TutoriaPublica {
+  _id: string;
+  tutor: { _id: string; nombre: string; foto: string; biografia: string };
+  categoria: { _id: string; nombre: string } | null;
+  titulo: string;
+  descripcion: string;
+  modalidades: string[];
+  tarifaHora: number;
+  tarifaKm: number;
+}
+
+export async function fncObtenerTutorias(categoria: string, modalidad: string): Promise<TutoriaPublica[]> {
+  let ruta = "/api/tutorias?";
+  if (categoria !== "") {
+    ruta = ruta + "categoria=" + categoria + "&";
+  }
+  if (modalidad !== "") {
+    ruta = ruta + "modalidad=" + modalidad + "&";
+  }
+  return await fncPeticionJson(ruta);
+}
+
+export async function fncObtenerTutoria(id: string): Promise<TutoriaPublica> {
+  return await fncPeticionJson("/api/tutorias/" + id);
+}
+
+export async function fncObtenerDisponibilidadDeTutor(idTutor: string): Promise<BloqueDisponibilidad[]> {
+  return await fncPeticionJson("/api/disponibilidad/tutor/" + idTutor);
+}
+
+export interface DiaFijo {
+  dia: number;
+  horaInicio: string;
+}
+
+export interface DatosReserva {
+  tutoria: string;
+  modalidad: string;
+  fechaInicio: string; 
+  semanas: number;
+  horasPorSesion: number;
+  diasFijos: DiaFijo[];
+}
+
+export interface Estimacion {
+  totalSesiones: number;
+  distanciaKm: number;
+  costoClases: number;
+  costoTraslado: number;
+  total: number;
+  sesiones: { inicio: string; fin: string }[];
+}
+
+export async function fncSimularReserva(datos: DatosReserva): Promise<Estimacion> {
+  return await fncPeticionJson("/api/reservas?simular=true", {
+    method: "POST",
+    body: JSON.stringify(datos),
+  });
+}
+
+export async function fncCrearReserva(datos: DatosReserva): Promise<void> {
+  await fncPeticionJson("/api/reservas", { method: "POST", body: JSON.stringify(datos) });
+}
+
+export interface Resena {
+  _id: string;
+  estudiante: { _id: string; nombre: string; foto: string };
+  calificacion: number;
+  comentario: string;
+  createdAt: string;
+}
+
+export interface RespuestaResenas {
+  promedio: number;
+  total: number;
+  resenas: Resena[];
+}
+
+export async function fncCrearResena(reservaId: string, calificacion: number, comentario: string): Promise<void> {
+  await fncPeticionJson("/api/resenas", {
+    method: "POST",
+    body: JSON.stringify({ reservaId: reservaId, calificacion: calificacion, comentario: comentario }),
+  });
+}
+
+export async function fncObtenerMisResenas(): Promise<string[]> {
+  return await fncPeticionJson("/api/resenas/mias");
+}
+
+export async function fncObtenerResenasRecibidas(): Promise<RespuestaResenas> {
+  return await fncPeticionJson("/api/resenas/recibidas");
+}
+
+export async function fncObtenerResenasDeTutor(tutorId: string): Promise<RespuestaResenas> {
+  return await fncPeticionJson("/api/resenas/tutor/" + tutorId);
+}
