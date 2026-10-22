@@ -22,10 +22,19 @@ function Inicio() {
     }
     fncCargarPerfil();
   }, []);
+  
+  function fncIrAlPanel(): void {
+    navegar("/admin");
+  }
+
+  function fncIrAlPanelTutor(): void {
+    navegar("/tutor");
+  }
 
   if (!usuario) {
     return <p className="inicio__cargando">Cargando...</p>;
   }
+
 
   return (
     <div className="inicio">
@@ -36,7 +45,13 @@ function Inicio() {
       <p>Teléfono: {usuario.telefono}</p>
       <p>Dirección: {usuario.direccion}</p>
       <p>Ubicación: {usuario.latitud}, {usuario.longitud}</p>
+      {usuario.rol === "admin" && (
+        <button onClick={fncIrAlPanel}>Panel de administración</button>
+      )}
       <p>Categorías: {usuario.categorias.join(", ")}</p>
+      {usuario.rol === "tutor" && (
+        <button onClick={fncIrAlPanelTutor}>Panel de tutor</button>
+      )}     
       <button onClick={fncCerrarSesion}>Cerrar sesión</button>
     </div>
   );

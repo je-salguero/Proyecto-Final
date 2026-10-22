@@ -1,0 +1,165 @@
+$color-principal: #2d5bff;
+
+.tutor {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+
+  &__encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__pestanas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  &__pestana {
+    background: white;
+    color: $color-principal;
+    border: 1px solid $color-principal;
+  }
+
+  &__pestana--activa {
+    background: $color-principal;
+    color: white;
+  }
+
+  &__secundario {
+    background: white;
+    color: $color-principal;
+    border: 1px solid $color-principal;
+  }
+
+  &__panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  &__aviso {
+    margin-top: 16px;
+    padding: 16px;
+    background: #fff7e0;
+    border: 1px solid #f0c36d;
+    border-radius: 8px;
+  }
+
+  &__ayuda {
+    color: #666;
+    font-size: 14px;
+  }
+
+  &__mensaje {
+    color: $color-principal;
+    font-weight: bold;
+  }
+
+  // ----- Disponibilidad -----
+  &__dia {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+
+    strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+  }
+
+  &__bloque {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+
+    input {
+      padding: 6px;
+      border: 1px solid #c8cdd8;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 4px 10px;
+      font-size: 13px;
+    }
+  }
+
+  &__tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+    }
+  }
+
+  &__tarjeta-datos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+  }
+
+  &__acciones-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 0;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 8px;
+      border: 1px solid #c8cdd8;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+  }
+
+  &__opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  &__opcion {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  &__acciones {
+    display: flex;
+    gap: 8px;
+  }
+}

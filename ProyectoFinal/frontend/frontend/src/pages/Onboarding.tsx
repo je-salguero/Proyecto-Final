@@ -2,20 +2,14 @@ import { useEffect, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import MapaUbicacion from "../components/MapaUbicacion";
-import { fncEnviarOnboarding, fncGuardarSesion, fncObtenerUsuarioGuardado } from "../services/api";
-import type { DatosOnboarding } from "../services/api";
+import {
+  fncEnviarOnboarding,
+  fncGuardarSesion,
+  fncObtenerUsuarioGuardado,
+  fncObtenerCategorias,
+} from "../services/api";
+import type { DatosOnboarding, Categoria } from "../services/api";
 import "../styles/onboarding.scss";
-
-const CATEGORIAS: string[] = [
-  "Matemáticas",
-  "Física",
-  "Química",
-  "Programación",
-  "Desarrollo Web",
-  "Bases de Datos",
-  "Inglés",
-  "Contabilidad",
-];
 
 interface DatosFormulario {
   rol: string;
@@ -47,6 +41,9 @@ function Onboarding() {
   const [categoriasElegidas, setCategoriasElegidas] = useState<string[]>([]);
   const [error, setError] = useState("");
   const [guardando, setGuardando] = useState(false);
+  
+  const [categoriasDisponibles, setCategoriasDisponibles] = useState<Categoria[]>([]);
+  const [cargandoCategorias, setCargandoCategorias] = useState(true);
 
   useEffect(function fncRevisarSesion() {
     const usuarioGuardado = fncObtenerUsuarioGuardado();
@@ -55,6 +52,19 @@ function Onboarding() {
     } else if (usuarioGuardado.perfilCompleto) {
       navegar("/inicio");
     }
+  }, []);
+
+  useEffect(function fncCargarCategorias() {
+    async function fncPedirCategorias(): Promise<void> {
+      try {
+        const lista = await fncObtenerCategorias();
+        setCategoriasDisponibles(lista);
+      } catch (e) {
+        setError("No se pudieron cargar las categorías. Recarga la página.");
+      }
+      setCargandoCategorias(false);
+    }
+    fncPedirCategorias();
   }, []);
 
   function fncCambiarCampo(
@@ -99,18 +109,22 @@ function Onboarding() {
     fncAlternarCategoria(evento.target.value);
   }
 
-  function fncDibujarCategoria(categoria: string) {
+  function fncDibujarCategoria(categoria: Categoria) {
     return (
-      <label key={categoria} className="onboarding__categoria">
+      <label key={categoria._id} className="onboarding__categoria">
         <input
           type="checkbox"
-          value={categoria}
-          checked={categoriasElegidas.includes(categoria)}
+          value={categoria.nombre}
+          checked={categoriasElegidas.includes(categoria.nombre)}
           onChange={fncCambiarCategoria}
         />
-        {categoria}
+        {categoria.nombre}
       </label>
     );
+  }
+
+  function fncEsCategoriaPrincipal(categoria: Categoria): boolean {
+    return categoria.padre === "";
   }
 
   function fncValidarFormulario(): string {
@@ -166,6 +180,8 @@ function Onboarding() {
     }
     setGuardando(false);
   }
+
+  const categoriasPrincipales = categoriasDisponibles.filter(fncEsCategoriaPrincipal);
 
   return (
     <div className="onboarding">
@@ -240,7 +256,14 @@ function Onboarding() {
         )}
 
         <h2>{datos.rol === "tutor" ? "Categorías que enseñas" : "Categorías de interés"}</h2>
-        <div className="onboarding__categorias">{CATEGORIAS.map(fncDibujarCategoria)}</div>
+        
+        <div className="onboarding__categorias">
+          {cargandoCategorias && <p className="onboarding__ayuda">Cargando categorías...</p>}
+          {!cargandoCategorias && categoriasPrincipales.length === 0 && (
+            <p className="onboarding__ayuda">Todavía no hay categorías disponibles.</p>
+          )}
+          {categoriasPrincipales.map(fncDibujarCategoria)}
+        </div>
 
         {datos.rol === "tutor" && (
           <>

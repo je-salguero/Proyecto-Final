@@ -1,5 +1,10 @@
 import dotenv from "dotenv";
 import rutasAutenticacion from "./routes/autenticacion";
+import rutasCategorias from "./routes/categorias";
+import rutasAdmin from "./routes/admin";
+import rutasDisponibilidad from "./routes/disponibilidad";
+import rutasTutorias from "./routes/tutorias";
+import rutasReservas from "./routes/reservas";
 dotenv.config(); 
 
 import express from "express";
@@ -11,6 +16,11 @@ const app = express();
 app.use(cors()); 
 app.use(express.json()); 
 app.use("/api/auth", rutasAutenticacion);
+app.use("/api/categorias", rutasCategorias);
+app.use("/api/admin", rutasAdmin);
+app.use("/api/disponibilidad", rutasDisponibilidad);
+app.use("/api/tutorias", rutasTutorias);
+app.use("/api/reservas", rutasReservas);
 
 app.get("/", (req, res) => {
   res.send("API del marketplace funcionando");

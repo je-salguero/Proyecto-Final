@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { Usuario } from "../models/Usuario";
 import { fncValidarToken, SolicitudAutenticada } from "../middlewares/auth";
+import { Categoria } from "../models/Categoria";
 
 const router = Router();
 
@@ -105,13 +106,19 @@ async function fncCompletarOnboarding(req: SolicitudAutenticada, res: Response):
       return;
     }
 
-    // Afinidad de categorías: al menos una
     if (!Array.isArray(categorias) || categorias.length === 0) {
       res.status(400).json({ mensaje: "Selecciona al menos una categoría" });
       return;
     }
-
-    // Campos exclusivos de tutores
+    const cantidadValidas = await Categoria.countDocuments({
+      nombre: { $in: categorias },
+      padre: "",
+      activa: true,
+    });
+    if (cantidadValidas !== categorias.length) {
+      res.status(400).json({ mensaje: "Alguna categoría no es válida" });
+      return;
+    }
     if (rol === "tutor") {
       if (fncEstaVacio(hojaDeVida) || fncEstaVacio(biografia)) {
         res.status(400).json({ mensaje: "El tutor debe enviar hoja de vida y biografía" });
@@ -126,7 +133,6 @@ async function fncCompletarOnboarding(req: SolicitudAutenticada, res: Response):
       usuario.tarifaHora = tarifaHora;
     }
 
-    // Guardamos los datos comunes
     usuario.rol = rol;
     usuario.telefono = telefono;
     usuario.genero = genero;

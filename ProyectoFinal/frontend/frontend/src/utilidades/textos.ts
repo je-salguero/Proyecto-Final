@@ -1,0 +1,37 @@
+export const NOMBRES_DIAS: string[] = [
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+];
+
+export function fncTextoModalidad(modalidad: string): string {
+  if (modalidad === "virtual") {
+    return "Virtual";
+  }
+  if (modalidad === "casa_tutor") {
+    return "Presencial en casa del tutor";
+  }
+  if (modalidad === "domicilio") {
+    return "Presencial a domicilio del estudiante";
+  }
+  return modalidad;
+}
+
+export function fncTextoDias(diasFijos: { dia: number; horaInicio: string }[]): string {
+  let texto = "";
+  for (let i = 0; i < diasFijos.length; i++) {
+    if (i > 0) {
+      texto = texto + ", ";
+    }
+    texto = texto + NOMBRES_DIAS[diasFijos[i].dia] + " " + diasFijos[i].horaInicio;
+  }
+  return texto;
+}
+
+export function fncFormatearDinero(cantidad: number): string {
+  return "Q" + cantidad.toFixed(2);
+}
