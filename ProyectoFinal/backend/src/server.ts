@@ -7,7 +7,7 @@ import rutasTutorias from "./routes/tutorias";
 import rutasReservas from "./routes/reservas";
 import rutasResenas from "./routes/resenas";
 dotenv.config(); 
-
+import rutasReportes from "./routes/reportes";
 import express from "express";
 import cors from "cors";
 import { fncConectarBaseDatos } from "./config/db";
@@ -24,6 +24,8 @@ app.use("/api/disponibilidad", rutasDisponibilidad);
 app.use("/api/tutorias", rutasTutorias);
 app.use("/api/reservas", rutasReservas);
 app.use("/api/resenas", rutasResenas);
+app.use("/api/reportes", rutasReportes);
+
 
 
 app.get("/", (req, res) => {

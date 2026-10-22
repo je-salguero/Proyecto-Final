@@ -3,6 +3,7 @@ import type { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import PanelTutores from "../components/PanelTutores";
 import PanelCategorias from "../components/PanelCategorias";
+import PanelReportes from "../components/PanelReportes";
 import { fncObtenerUsuarioGuardado } from "../services/api";
 import "../styles/admin.scss";
 
@@ -49,10 +50,19 @@ function Admin() {
         >
           Categorías
         </button>
+        <button
+          value="reportes"
+          className={pestana === "reportes" ? "admin__pestana admin__pestana--activa" : "admin__pestana"}
+          onClick={fncCambiarPestana}
+        >
+          Reportes y Métricas
+        </button>
       </div>
 
       <div className="admin__panel">
-        {pestana === "tutores" ? <PanelTutores /> : <PanelCategorias />}
+        {pestana === "tutores" && <PanelTutores />}
+        {pestana === "categorias" && <PanelCategorias />}
+        {pestana === "reportes" && <PanelReportes />}
       </div>
     </div>
   );

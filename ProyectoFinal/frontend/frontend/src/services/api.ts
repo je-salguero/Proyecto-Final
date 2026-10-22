@@ -362,3 +362,33 @@ export async function fncObtenerResenasRecibidas(): Promise<RespuestaResenas> {
 export async function fncObtenerResenasDeTutor(tutorId: string): Promise<RespuestaResenas> {
   return await fncPeticionJson("/api/resenas/tutor/" + tutorId);
 }
+
+export interface RankingTutor {
+  _id: string;
+  nombre: string;
+  promedio: number;
+  totalResenas: number;
+}
+
+export interface DemandaCategoria {
+  _id: string; 
+  totalReservas: number;
+}
+
+export interface ReporteMensual {
+  _id: { mes: number; anio: number };
+  aceptadas: number;
+  canceladas: number;
+}
+
+export async function fncObtenerRankingTutores(): Promise<RankingTutor[]> {
+  return await fncPeticionJson("/api/reportes/tutores");
+}
+
+export async function fncObtenerDemandaCategorias(): Promise<DemandaCategoria[]> {
+  return await fncPeticionJson("/api/reportes/demanda");
+}
+
+export async function fncObtenerReporteMensual(): Promise<ReporteMensual[]> {
+  return await fncPeticionJson("/api/reportes/mensual");
+}

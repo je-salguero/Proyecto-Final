@@ -41,7 +41,6 @@ $color-principal: #2d5bff;
     font-weight: bold;
   }
 
-  // ----- Tutores -----
   &__tarjeta {
     display: flex;
     align-items: center;
@@ -64,7 +63,6 @@ $color-principal: #2d5bff;
     font-size: 14px;
   }
 
-  // ----- Categorías -----
   &__formulario {
     display: flex;
     flex-wrap: wrap;
@@ -110,5 +108,70 @@ $color-principal: #2d5bff;
   &__inactiva {
     color: #999;
     text-decoration: line-through;
+  }
+}
+.reportes {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+
+  &__bloque {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+    h3 { margin-top: 0; margin-bottom: 16px; color: #333; }
+  }
+
+  &__tabla {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+    th { font-weight: bold; background: #f9fafb; }
+  }
+
+  &__grafica {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__fila-grafica {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__etiqueta {
+    min-width: 150px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__barra-fondo {
+    flex: 1;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__barra-llena { height: 100%; background: #2d5bff; transition: width 0.3s ease; }
+  
+  &__barra-doble { display: flex; }
+  &__barra-aceptada { height: 100%; background: #2f855a; transition: width 0.3s ease; }
+  &__barra-cancelada { height: 100%; background: #c53030; transition: width 0.3s ease; }
+
+  &__leyenda {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    margin-top: 12px;
+    
+    .leyenda-aceptada { color: #2f855a; }
+    .leyenda-cancelada { color: #c53030; }
   }
 }
