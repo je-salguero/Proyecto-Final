@@ -1,11 +1,134 @@
-.inicio {
-  max-width: 400px;
-  margin: 60px auto;
-  padding: 0 16px;
+$color-principal: #2d5bff;
+$color-peligro: #dc3545;
+$color-fondo: #f4f7f6;
+$color-texto: #333;
+$color-gris: #6c757d;
+
+.perfil-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.perfil-tarjeta {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px 32px;
   text-align: center;
 
-  img {
-    width: 100px;
+  &__foto {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+  }
+
+  &__nombre {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+    color: $color-texto;
+  }
+
+  &__email {
+    margin: 0 0 16px;
+    color: $color-gris;
+    font-size: 1rem;
+  }
+
+  &__rol {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 32px;
+
+    &--estudiante { background: #eef2ff; color: $color-principal; }
+    &--tutor { background: #fff3cd; color: #856404; }
+    &--admin { background: #d4edda; color: #155724; }
+  }
+
+  &__detalles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  &__dato {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 12px;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    strong {
+      font-size: 0.8rem;
+      color: $color-gris;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    span {
+      font-size: 1rem;
+      color: $color-texto;
+      font-weight: 500;
+    }
+  }
+
+  &__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+
+    button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primario {
+      background: $color-principal;
+      color: white;
+      
+      &:hover {
+        background: darken($color-principal, 10%);
+        transform: translateY(-2px);
+      }
+    }
+
+    .btn-peligro {
+      background: transparent;
+      color: $color-peligro;
+      border: 1px solid $color-peligro;
+
+      &:hover {
+        background: $color-peligro;
+        color: white;
+      }
+    }
   }
 }

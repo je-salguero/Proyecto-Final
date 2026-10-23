@@ -72,42 +72,23 @@ function PanelReservasTutor() {
         <img src={reserva.estudiante.foto} alt="Foto" referrerPolicy="no-referrer" />
         <div className="tutor__tarjeta-datos">
           <strong>{reserva.tutoria.titulo}</strong>
-          <span>
-            Estudiante: {reserva.estudiante.nombre} | Tel: {reserva.estudiante.telefono}
-          </span>
-          <span>
-            {fncTextoModalidad(reserva.modalidad)} | {reserva.semanas} semanas desde {reserva.fechaInicio}
-          </span>
-          <span>
-            {fncTextoDias(reserva.diasFijos)} ({reserva.horasPorSesion} h por clase, {reserva.sesiones.length} clases)
-          </span>
-          <span>
-            Total: {fncFormatearDinero(reserva.total)}
-            {reserva.distanciaKm > 0
-              ? " (incluye " + fncFormatearDinero(reserva.costoTraslado) + " de traslado, " + reserva.distanciaKm + " km por clase)"
-              : ""}
-          </span>
-          <span>Estado: {reserva.estado}</span>
+          <span>Estudiante: {reserva.estudiante.nombre} | Tel: {reserva.estudiante.telefono}</span>
+          <span>{fncTextoModalidad(reserva.modalidad)} | {reserva.semanas} semanas desde {reserva.fechaInicio}</span>
+          <span>{fncTextoDias(reserva.diasFijos)} ({reserva.horasPorSesion} h por clase, {reserva.sesiones.length} clases)</span>
+          <span>Total: {fncFormatearDinero(reserva.total)}</span>
+          <span className={`estudiante__estado estudiante__estado--${reserva.estado}`}>{reserva.estado}</span>
         </div>
         <div className="tutor__acciones-columna">
           {reserva.estado === "pendiente" && (
             <>
-              <button value={reserva._id} onClick={fncAceptar}>
-                Aceptar
-              </button>
-              <button className="tutor__secundario" value={reserva._id} onClick={fncRechazar}>
-                Rechazar
-              </button>
+              <button value={reserva._id} onClick={fncAceptar}>Aceptar</button>
+              <button className="tutor__secundario" value={reserva._id} onClick={fncRechazar}>Rechazar</button>
             </>
           )}
           {reserva.estado === "aceptada" && (
-            <button className="tutor__secundario" value={reserva._id} onClick={fncCancelar}>
-              Cancelar
-            </button>
+            <button className="tutor__secundario" value={reserva._id} onClick={fncCancelar}>Cancelar</button>
           )}
-          <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>
-            Abrir Chat
-          </button>
+          <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>Abrir Chat</button>
         </div>
       </div>
     );
@@ -117,17 +98,16 @@ function PanelReservasTutor() {
 
   return (
     <div>
-      <label>
-        Mostrar:{" "}
+      <div className="estudiante__filtros" style={{ marginBottom: '20px' }}>
         <select value={filtro} onChange={fncCambiarFiltro}>
-          <option value="pendiente">Pendientes</option>
-          <option value="aceptada">Aceptadas</option>
-          <option value="">Todas</option>
+          <option value="pendiente">Mostrar: Pendientes</option>
+          <option value="aceptada">Mostrar: Aceptadas</option>
+          <option value="">Mostrar: Todas</option>
         </select>
-      </label>
+      </div>
       {mensaje && <p className="tutor__mensaje">{mensaje}</p>}
       {cargando && <p>Cargando...</p>}
-      {!cargando && reservasFiltradas.length === 0 && <p>No hay reservas en esta lista.</p>}
+      {!cargando && reservasFiltradas.length === 0 && <p style={{ color: '#666' }}>No hay reservas en esta lista.</p>}
       {reservasFiltradas.map(fncDibujarReserva)}
     </div>
   );

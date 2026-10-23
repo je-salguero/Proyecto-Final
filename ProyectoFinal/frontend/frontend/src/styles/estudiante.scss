@@ -1,71 +1,100 @@
 $color-principal: #2d5bff;
+$color-secundario: #f4f7f6;
+$color-texto: #333;
+$color-gris: #6c757d;
 
 .estudiante {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 32px 16px;
 
   &__encabezado {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    h1 { margin: 0; font-size: 2rem; color: $color-texto; }
   }
 
   &__acciones {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+    gap: 12px;
 
-  &__secundario {
-    background: white;
-    color: $color-principal;
-    border: 1px solid $color-principal;
+    button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: $color-principal;
+      color: white;
+      transition: all 0.2s ease;
+
+      &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45, 91, 255, 0.2); }
+    }
+
+    .estudiante__secundario {
+      background: white;
+      color: $color-principal;
+      border: 1px solid $color-principal;
+      
+      &:hover { background: #f0f4ff; box-shadow: none; }
+    }
   }
 
   &__filtros {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 16px 0;
+    gap: 12px;
+    margin-bottom: 24px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
 
     select {
-      padding: 8px;
-      border: 1px solid #c8cdd8;
-      border-radius: 6px;
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: $color-texto;
+      outline: none;
+      
+      &:focus { border-color: $color-principal; }
     }
-  }
-
-  &__ayuda {
-    color: #666;
-    font-size: 13px;
-  }
-
-  &__mensaje {
-    color: $color-principal;
-    font-weight: bold;
-  }
-
-  &__error {
-    color: #c0392b;
   }
 
   &__tarjeta {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f5f5f5;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
 
     img {
-      width: 64px;
-      height: 64px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #f0f4ff;
     }
   }
 
@@ -73,91 +102,120 @@ $color-principal: #2d5bff;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    font-size: 14px;
+    gap: 6px;
+
+    strong { font-size: 1.25rem; color: $color-texto; margin-bottom: 4px; }
+    span { font-size: 0.95rem; color: $color-gris; }
+    .estudiante__ayuda { font-size: 0.85rem; color: #888; font-style: italic; }
+  }
+
+  &__tarjeta-acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 140px;
+
+    button {
+      width: 100%;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: $color-principal;
+      color: white;
+
+      &.estudiante__secundario {
+        background: white;
+        color: $color-principal;
+        border: 1px solid $color-principal;
+      }
+    }
   }
 
   &__estado {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: bold;
-    text-transform: capitalize;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    align-self: flex-start;
 
-    &--pendiente {
-      color: #b7791f;
-    }
-
-    &--aceptada {
-      color: #2f855a;
-    }
-
-    &--rechazada,
-    &--cancelada {
-      color: #999;
-    }
+    &--pendiente { background: #fff3cd; color: #856404; }
+    &--aceptada { background: #d4edda; color: #155724; }
+    &--rechazada, &--cancelada { background: #f8d7da; color: #721c24; }
   }
 
-  &__seccion {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    margin-top: 12px;
+  &__formulario {
     background: white;
+    padding: 24px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  }
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 
-  &__campo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 14px;
-
-    input,
-    select {
-      padding: 8px;
-      border: 1px solid #c8cdd8;
-      border-radius: 6px;
-      max-width: 260px;
+    h3 {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: $color-texto;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
     }
-  }
-
-  &__opcion {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-  }
-
-  &__dia {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
 
     label {
-      min-width: 110px;
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
     }
 
-    input[type="time"] {
-      padding: 4px;
-      border: 1px solid #c8cdd8;
-      border-radius: 6px;
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 8px;
     }
-  }
 
-  &__estimacion {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin: 12px 0;
-    padding: 16px;
-    background: #eef2ff;
-    border: 1px solid $color-principal;
-    border-radius: 12px;
-  }
+    .reserva-fila {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
 
-  button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: normal;
+        font-size: 0.9rem;
+        color: #555;
+        
+        input, select {
+          margin-top: 4px;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .reserva-dia {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      padding: 8px;
+      background: #f9f9f9;
+      border-radius: 4px;
+
+      span {
+        flex: 1;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      input[type="time"] {
+        padding: 4px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
   }
 }

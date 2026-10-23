@@ -73,7 +73,7 @@ function MisReservas() {
     return filtro === "" || reserva.estado === filtro;
   }
 
-  function fncDibujarReserva(reserva: ReservaDetalle) {
+ function fncDibujarReserva(reserva: ReservaDetalle) {
     const sePuedeCancelar = reserva.estado === "pendiente" || reserva.estado === "aceptada";
     return (
       <div key={reserva._id} className="estudiante__tarjeta">
@@ -81,37 +81,25 @@ function MisReservas() {
         <div className="estudiante__tarjeta-datos">
           <strong>{reserva.tutoria.titulo}</strong>
           <span>Tutor: {reserva.tutor.nombre}</span>
-          <span>
-            {fncTextoModalidad(reserva.modalidad)} | {reserva.semanas} semanas desde {reserva.fechaInicio}
-          </span>
-          <span>
-            {fncTextoDias(reserva.diasFijos)} ({reserva.horasPorSesion} h por clase, {reserva.sesiones.length} clases)
-          </span>
-          <span>
-            Total: {fncFormatearDinero(reserva.total)}
-            {reserva.distanciaKm > 0 ? " (incluye " + fncFormatearDinero(reserva.costoTraslado) + " de traslado)" : ""}
-          </span>
-          <span className={"estudiante__estado estudiante__estado--" + reserva.estado}>{reserva.estado}</span>
+          <span>{fncTextoModalidad(reserva.modalidad)} | {reserva.semanas} semanas desde {reserva.fechaInicio}</span>
+          <span>{fncTextoDias(reserva.diasFijos)} ({reserva.horasPorSesion} h por clase, {reserva.sesiones.length} clases)</span>
+          <span>Total: {fncFormatearDinero(reserva.total)}</span>
+          <span className={`estudiante__estado estudiante__estado--${reserva.estado}`}>{reserva.estado}</span>
         </div>
         
-        {sePuedeCancelar && (
-          <button className="estudiante__secundario" value={reserva._id} onClick={fncCancelar}>
-            Cancelar
-          </button>
-        )}
-     
-        <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>
-          Abrir Chat
-        </button>
-
-        {reserva.estado === "aceptada" &&
-          reserva.sesiones.length > 0 &&
-          new Date(reserva.sesiones[0].inicio) <= new Date() &&
-          (idsResenadas.includes(reserva._id) ? (
-            <p className="resena-form__gracias">✔ Ya calificaste esta reserva</p>
-          ) : (
-            <FormularioResena reservaId={reserva._id} alGuardar={fncCargarResenadas} />
-          ))}
+        <div className="estudiante__tarjeta-acciones">
+          {sePuedeCancelar && (
+            <button className="estudiante__secundario" value={reserva._id} onClick={fncCancelar}>Cancelar</button>
+          )}
+          <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>Abrir Chat</button>
+          
+          {reserva.estado === "aceptada" && reserva.sesiones.length > 0 && new Date(reserva.sesiones[0].inicio) <= new Date() &&
+            (idsResenadas.includes(reserva._id) ? (
+              <p className="resena-form__gracias">✔ Ya calificada</p>
+            ) : (
+              <FormularioResena reservaId={reserva._id} alGuardar={fncCargarResenadas} />
+            ))}
+        </div>
       </div>
     );
   }

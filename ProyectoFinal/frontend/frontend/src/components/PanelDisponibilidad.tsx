@@ -53,7 +53,10 @@ function PanelDisponibilidad() {
     try {
       const guardados = await fncGuardarDisponibilidad(bloques);
       setBloques(guardados);
-      setMensaje("Disponibilidad guardada");
+      setMensaje("Disponibilidad guardada correctamente");
+      
+      // Limpiar mensaje de éxito después de 3 segundos
+      setTimeout(() => setMensaje(""), 3000);
     } catch (e) {
       setMensaje(e instanceof Error ? e.message : "No se pudo guardar");
     }
@@ -61,11 +64,16 @@ function PanelDisponibilidad() {
 
   function fncDibujarBloque(bloque: BloqueDisponibilidad, indice: number) {
     return (
-      <div key={indice} className="tutor__bloque">
+      <div key={indice} className="bloque-horario">
         <input type="time" name="horaInicio" data-indice={indice} value={bloque.horaInicio} onChange={fncCambiarHora} />
         <span>a</span>
         <input type="time" name="horaFin" data-indice={indice} value={bloque.horaFin} onChange={fncCambiarHora} />
-        <button type="button" className="tutor__secundario" value={indice} onClick={fncQuitarBloque}>
+        <button 
+          type="button" 
+          value={indice} 
+          onClick={fncQuitarBloque}
+          style={{ padding: '6px 12px', background: 'transparent', border: '1px solid #dc3545', color: '#dc3545', borderRadius: '4px', cursor: 'pointer', marginLeft: '8px' }}
+        >
           Quitar
         </button>
       </div>
@@ -80,10 +88,10 @@ function PanelDisponibilidad() {
       }
     }
     return (
-      <div key={dia} className="tutor__dia">
-        <strong>{NOMBRES_DIAS[dia]}</strong>
+      <div key={dia} className="disponibilidad-dia">
+        <h4>{NOMBRES_DIAS[dia]}</h4>
         {filas}
-        <button type="button" className="tutor__secundario" value={dia} onClick={fncAgregarBloque}>
+        <button type="button" className="btn-agregar" value={dia} onClick={fncAgregarBloque}>
           + Agregar horario
         </button>
       </div>
@@ -91,13 +99,25 @@ function PanelDisponibilidad() {
   }
 
   return (
-    <div>
-      <p className="tutor__ayuda">
+    <div className="tutor__formulario">
+      <p style={{ margin: '0 0 16px 0', color: '#666' }}>
         Define en qué horarios das clases cada semana. Los estudiantes solo podrán reservar dentro de estos bloques.
       </p>
+      
       {ORDEN_DIAS.map(fncDibujarDia)}
-      {mensaje && <p className="tutor__mensaje">{mensaje}</p>}
-      <button onClick={fncGuardarCuadricula}>Guardar disponibilidad</button>
+      
+      {mensaje && (
+        <p style={{ color: mensaje.includes("error") ? '#dc3545' : '#28a745', fontWeight: 'bold', margin: '0' }}>
+          {mensaje}
+        </p>
+      )}
+      
+      <button 
+        onClick={fncGuardarCuadricula}
+        style={{ background: '#2d5bff', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', marginTop: '10px' }}
+      >
+        Guardar disponibilidad
+      </button>
     </div>
   );
 }

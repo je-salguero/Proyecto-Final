@@ -102,27 +102,24 @@ function Explorar() {
     );
   }
 
-  // La tarjeta de una oferta
   function fncDibujarTutoria(tutoria: TutoriaPublica) {
     return (
       <div key={tutoria._id} className="estudiante__tarjeta">
         <img src={tutoria.tutor.foto} alt="Foto del tutor" referrerPolicy="no-referrer" />
         <div className="estudiante__tarjeta-datos">
           <strong>{tutoria.titulo}</strong>
-          <span>
-            Tutor: {tutoria.tutor.nombre} | {tutoria.categoria ? tutoria.categoria.nombre : "Sin categoría"}
-          </span>
+          <span>Tutor: {tutoria.tutor.nombre} | {tutoria.categoria ? tutoria.categoria.nombre : "Sin categoría"}</span>
           <span>{tutoria.descripcion}</span>
           <span className="estudiante__ayuda">{tutoria.tutor.biografia}</span>
           <span>Modalidades: {tutoria.modalidades.map(fncTextoModalidad).join(", ")}</span>
           <span>
             {fncFormatearDinero(tutoria.tarifaHora)} por hora
-            {tutoria.tarifaKm > 0 ? " + " + fncFormatearDinero(tutoria.tarifaKm) + " por km de traslado" : ""}
+            {tutoria.tarifaKm > 0 ? " + " + fncFormatearDinero(tutoria.tarifaKm) + " por km" : ""}
           </span>
         </div>
-        <button value={tutoria._id} onClick={fncIrAReservar}>
-          Reservar
-        </button>
+        <div className="estudiante__tarjeta-acciones">
+          <button value={tutoria._id} onClick={fncIrAReservar}>Reservar</button>
+        </div>
       </div>
     );
   }

@@ -1,21 +1,9 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  fncObtenerTutoria,
-  fncObtenerDisponibilidadDeTutor,
-  fncSimularReserva,
-  fncCrearReserva,
-  fncRutaSiNoTieneRol,
-} from "../services/api";
+import { fncObtenerTutoria, fncObtenerDisponibilidadDeTutor, fncSimularReserva, fncCrearReserva, fncRutaSiNoTieneRol} from "../services/api";
 import type { TutoriaPublica, BloqueDisponibilidad, DiaFijo, DatosReserva, Estimacion } from "../services/api";
-import {
-  NOMBRES_DIAS,
-  fncTextoModalidad,
-  fncFormatearDinero,
-  fncRangoDeClases,
-  fncFechaDeHoy,
-} from "../utilidades/textos";
+import { NOMBRES_DIAS, fncTextoModalidad, fncFormatearDinero, fncRangoDeClases, fncFechaDeHoy} from "../utilidades/textos";
 import "../styles/estudiante.scss";
 
 const ORDEN_DIAS: number[] = [1, 2, 3, 4, 5, 6, 0];
@@ -160,7 +148,7 @@ function Reservar() {
 
   function fncDibujarModalidad(modalidad: string) {
     return (
-      <label key={modalidad} className="estudiante__opcion">
+      <label key={modalidad} style={{ display: 'flex', alignItems: 'center', fontWeight: 'normal', gap: '6px' }}>
         <input
           type="radio"
           name="modalidad"
@@ -174,11 +162,7 @@ function Reservar() {
   }
 
   function fncDibujarOpcionHoras(valor: string) {
-    return (
-      <option key={valor} value={valor}>
-        {valor + " h"}
-      </option>
-    );
+    return <option key={valor} value={valor}>{valor + " h"}</option>;
   }
 
   function fncDibujarOpcionSemanas(valor: string) {
@@ -193,15 +177,15 @@ function Reservar() {
     const posicion = fncPosicionDia(dia);
     const elegido = posicion >= 0;
     return (
-      <div key={dia} className="estudiante__dia">
-        <label className="estudiante__opcion">
+      <div key={dia} className="reserva-dia">
+        <label style={{ display: 'flex', alignItems: 'center', width: '130px', margin: '0', fontWeight: 'bold' }}>
           <input type="checkbox" value={dia} checked={elegido} onChange={fncAlternarDia} />
           {NOMBRES_DIAS[dia]}
         </label>
         {elegido && (
           <input type="time" data-dia={dia} value={diasFijos[posicion].horaInicio} onChange={fncCambiarHoraDia} />
         )}
-        <span className="estudiante__ayuda">{fncTextoDisponibilidad(dia)}</span>
+        <span>{fncTextoDisponibilidad(dia)}</span>
       </div>
     );
   }
@@ -210,7 +194,7 @@ function Reservar() {
     return (
       <div className="estudiante">
         <p>{error !== "" ? error : "Cargando..."}</p>
-        <button onClick={fncVolver}>Volver</button>
+        <button className="estudiante__secundario" onClick={fncVolver}>Volver</button>
       </div>
     );
   }
@@ -222,83 +206,84 @@ function Reservar() {
         <button onClick={fncVolver}>Volver</button>
       </div>
 
-      <div className="estudiante__seccion">
-        <strong>{tutoria.titulo}</strong>
-        <span>
-          Tutor: {tutoria.tutor.nombre} | {tutoria.categoria ? tutoria.categoria.nombre : "Sin categoría"}
-        </span>
-        <span>{tutoria.descripcion}</span>
-        <span>
-          {fncFormatearDinero(tutoria.tarifaHora)} por hora
-          {tutoria.tarifaKm > 0 ? " + " + fncFormatearDinero(tutoria.tarifaKm) + " por km de traslado (a domicilio)" : ""}
-        </span>
+      <div className="estudiante__tarjeta">
+        <img src={tutoria.tutor.foto} alt="Foto del tutor" referrerPolicy="no-referrer" />
+        <div className="estudiante__tarjeta-datos">
+          <strong>{tutoria.titulo}</strong>
+          <span>Tutor: {tutoria.tutor.nombre} | {tutoria.categoria ? tutoria.categoria.nombre : "Sin categoría"}</span>
+          <span>{tutoria.descripcion}</span>
+          <span>
+            {fncFormatearDinero(tutoria.tarifaHora)} por hora
+            {tutoria.tarifaKm > 0 ? " + " + fncFormatearDinero(tutoria.tarifaKm) + " por km de traslado (a domicilio)" : ""}
+          </span>
+        </div>
       </div>
 
-      <div className="estudiante__seccion">
-        <strong>1. Modalidad</strong>
-        {tutoria.modalidades.map(fncDibujarModalidad)}
+      <div className="estudiante__formulario">
+        <h3>1. Modalidad</h3>
+        <div className="reserva-fila">
+          {tutoria.modalidades.map(fncDibujarModalidad)}
+        </div>
         {datos.modalidad === "domicilio" && (
-          <span className="estudiante__ayuda">
+          <span className="estudiante__ayuda" style={{ display: 'block', marginTop: '-10px', marginBottom: '16px', color: '#888', fontStyle: 'italic' }}>
             El traslado se cobra por clase, según la distancia entre tu ubicación y la del tutor.
           </span>
         )}
-      </div>
 
-      <div className="estudiante__seccion">
-        <strong>2. Duración y horas</strong>
-        <label className="estudiante__campo">
-          Fecha de inicio
-          <input type="date" name="fechaInicio" min={fncFechaDeHoy()} value={datos.fechaInicio} onChange={fncCambiarCampo} />
-        </label>
-        <label className="estudiante__campo">
-          Duración de la suscripción
-          <select name="semanas" value={datos.semanas} onChange={fncCambiarCampo}>
-            {OPCIONES_SEMANAS.map(fncDibujarOpcionSemanas)}
-          </select>
-        </label>
-        <label className="estudiante__campo">
-          Horas por clase
-          <select name="horas" value={datos.horas} onChange={fncCambiarCampo}>
-            {OPCIONES_HORAS.map(fncDibujarOpcionHoras)}
-          </select>
-        </label>
-      </div>
-
-      <div className="estudiante__seccion">
-        <strong>3. Días fijos de la semana y hora de inicio</strong>
-        {bloques.length === 0 && (
-          <span className="estudiante__error">Este tutor todavía no ha definido su disponibilidad.</span>
-        )}
-        {ORDEN_DIAS.map(fncDibujarDia)}
-      </div>
-
-      {error && <p className="estudiante__error">{error}</p>}
-
-      {estimacion && (
-        <div className="estudiante__estimacion">
-          <strong>Resumen de tu suscripción</strong>
-          <span>
-            {estimacion.totalSesiones} clases, del {fncRangoDeClases(estimacion.sesiones)}
-          </span>
-          <span>Clases: {fncFormatearDinero(estimacion.costoClases)}</span>
-          {estimacion.distanciaKm > 0 && (
-            <span>
-              Traslado: {fncFormatearDinero(estimacion.costoTraslado)} ({estimacion.distanciaKm} km por clase)
-            </span>
-          )}
-          <strong>Total: {fncFormatearDinero(estimacion.total)}</strong>
+        <h3>2. Duración y horas</h3>
+        <div className="reserva-fila">
+          <label>
+            Fecha de inicio
+            <input type="date" name="fechaInicio" min={fncFechaDeHoy()} value={datos.fechaInicio} onChange={fncCambiarCampo} />
+          </label>
+          <label>
+            Duración de la suscripción
+            <select name="semanas" value={datos.semanas} onChange={fncCambiarCampo}>
+              {OPCIONES_SEMANAS.map(fncDibujarOpcionSemanas)}
+            </select>
+          </label>
+          <label>
+            Horas por clase
+            <select name="horas" value={datos.horas} onChange={fncCambiarCampo}>
+              {OPCIONES_HORAS.map(fncDibujarOpcionHoras)}
+            </select>
+          </label>
         </div>
-      )}
 
-      <div className="estudiante__acciones">
-        <button className="estudiante__secundario" onClick={fncCalcular} disabled={trabajando}>
-          Calcular costo y verificar horario
-        </button>
+        <h3>3. Días fijos de la semana y hora de inicio</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {bloques.length === 0 && (
+            <span style={{ color: '#dc3545', fontWeight: 'bold' }}>Este tutor todavía no ha definido su disponibilidad.</span>
+          )}
+          {ORDEN_DIAS.map(fncDibujarDia)}
+        </div>
+
+        {error && <p style={{ color: '#dc3545', marginTop: '16px', fontWeight: 'bold' }}>{error}</p>}
+
         {estimacion && (
-          <button onClick={fncConfirmar} disabled={trabajando}>
-            Confirmar reserva
-          </button>
+          <div className="estudiante__tarjeta" style={{ background: '#f8f9fa', marginTop: '24px', border: '1px solid #e0e0e0', boxShadow: 'none' }}>
+            <div className="estudiante__tarjeta-datos">
+              <strong style={{ fontSize: '1.1rem', color: '#2d5bff' }}>Resumen de tu suscripción</strong>
+              <span>{estimacion.totalSesiones} clases, del {fncRangoDeClases(estimacion.sesiones)}</span>
+              <span>Costo por clases: {fncFormatearDinero(estimacion.costoClases)}</span>
+              {estimacion.distanciaKm > 0 && (
+                <span>Traslado a domicilio: {fncFormatearDinero(estimacion.costoTraslado)} ({estimacion.distanciaKm} km por clase)</span>
+              )}
+              <strong style={{ fontSize: '1.3rem', marginTop: '8px' }}>Total a pagar: {fncFormatearDinero(estimacion.total)}</strong>
+            </div>
+          </div>
         )}
+
+        <div className="estudiante__acciones" style={{ marginTop: '24px' }}>
+          <button className="estudiante__secundario" onClick={fncCalcular} disabled={trabajando}>
+            Calcular costo y verificar horario
+          </button>
+          {estimacion && (
+            <button onClick={fncConfirmar} disabled={trabajando}>
+              Confirmar reserva
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

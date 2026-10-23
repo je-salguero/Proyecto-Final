@@ -27,7 +27,6 @@ function Inicio() {
     navegar("/admin");
   }
 
-    // Solo se muestran a los estudiantes
   function fncIrAExplorar(): void {
     navegar("/tutorias");
   }
@@ -44,30 +43,75 @@ function Inicio() {
     return <p className="inicio__cargando">Cargando...</p>;
   }
 
-
   return (
-    <div className="inicio">
-      <img src={usuario.foto} alt="Foto de perfil" referrerPolicy="no-referrer" />
-      <h1>Hola, {usuario.nombre}</h1>
-      <p>{usuario.correo}</p>
-      <p>Rol: {usuario.rol} | Estado: {usuario.estado}</p>
-      <p>Teléfono: {usuario.telefono}</p>
-      <p>Dirección: {usuario.direccion}</p>
-      <p>Ubicación: {usuario.latitud}, {usuario.longitud}</p>
-      {usuario.rol === "admin" && (
-        <button onClick={fncIrAlPanel}>Panel de administración</button>
-      )}
-      <p>Categorías: {usuario.categorias.join(", ")}</p>
-      {usuario.rol === "tutor" && (
-        <button onClick={fncIrAlPanelTutor}>Panel de tutor</button>
-      )}     
-            {usuario.rol === "estudiante" && (
-        <>
-          <button onClick={fncIrAExplorar}>Explorar tutorías</button>
-          <button onClick={fncIrAMisReservas}>Mis reservas</button>
-        </>
-      )}
-      <button onClick={fncCerrarSesion}>Cerrar sesión</button>
+    <div className="perfil-contenedor">
+      <div className="perfil-tarjeta">
+        <img 
+          src={usuario.foto} 
+          alt="Foto de perfil" 
+          className="perfil-tarjeta__foto" 
+          referrerPolicy="no-referrer" 
+        />
+        
+        <h1 className="perfil-tarjeta__nombre">Hola, {usuario.nombre}</h1>
+        <p className="perfil-tarjeta__email">{usuario.correo}</p>
+        
+        <span className={`perfil-tarjeta__rol perfil-tarjeta__rol--${usuario.rol}`}>
+          Rol: {usuario.rol}
+        </span>
+
+        <div className="perfil-tarjeta__detalles">
+          <div className="perfil-tarjeta__dato">
+            <strong>Estado</strong>
+            <span>{usuario.estado}</span>
+          </div>
+          
+          <div className="perfil-tarjeta__dato">
+            <strong>Teléfono</strong>
+            <span>{usuario.telefono || "No registrado"}</span>
+          </div>
+          
+          {usuario.direccion && (
+            <div className="perfil-tarjeta__dato">
+              <strong>Dirección</strong>
+              <span>{usuario.direccion}</span>
+            </div>
+          )}
+
+          {(usuario.latitud || usuario.longitud) && (
+            <div className="perfil-tarjeta__dato">
+              <strong>Ubicación</strong>
+              <span>{usuario.latitud}, {usuario.longitud}</span>
+            </div>
+          )}
+
+          {usuario.categorias && usuario.categorias.length > 0 && (
+            <div className="perfil-tarjeta__dato">
+              <strong>Categorías</strong>
+              <span>{usuario.categorias.join(", ")}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="perfil-tarjeta__acciones">
+          {usuario.rol === "estudiante" && (
+            <>
+              <button className="btn-primario" onClick={fncIrAExplorar}>Explorar tutorías</button>
+              <button className="btn-primario" onClick={fncIrAMisReservas}>Mis reservas</button>
+            </>
+          )}
+          
+          {usuario.rol === "tutor" && (
+            <button className="btn-primario" onClick={fncIrAlPanelTutor}>Panel de tutor</button>
+          )}
+          
+          {usuario.rol === "admin" && (
+            <button className="btn-primario" onClick={fncIrAlPanel}>Panel de administración</button>
+          )}
+          
+          <button className="btn-peligro" onClick={fncCerrarSesion}>Cerrar sesión</button>
+        </div>
+      </div>
     </div>
   );
 }
