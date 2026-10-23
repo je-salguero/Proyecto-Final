@@ -6,8 +6,7 @@ import { fncObtenerHistorialChat, fncObtenerUsuarioGuardado } from "../services/
 import type { MensajeChat, Usuario } from "../services/api";
 import "../styles/chat.scss";
 
-// Conectamos al backend (ajusta la URL si lo subes a producción)
-const URL_BACKEND = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+const URL_BACKEND = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 function Chat() {
   const { reservaId } = useParams();
