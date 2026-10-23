@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent, MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { fncObtenerMisReservas, fncResponderReserva, fncCancelarReserva } from "../services/api";
 import type { ReservaDetalle } from "../services/api";
 import { fncTextoModalidad, fncTextoDias, fncFormatearDinero } from "../utilidades/textos";
 
 function PanelReservasTutor() {
+  const navegar = useNavigate();
   const [reservas, setReservas] = useState<ReservaDetalle[]>([]);
   const [filtro, setFiltro] = useState("pendiente");
   const [mensaje, setMensaje] = useState("");
@@ -103,6 +105,9 @@ function PanelReservasTutor() {
               Cancelar
             </button>
           )}
+          <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>
+            Abrir Chat
+          </button>
         </div>
       </div>
     );

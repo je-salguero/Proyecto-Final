@@ -7,6 +7,7 @@ import Tutor from "./pages/Tutor";
 import Explorar from "./pages/Explorar";
 import Reservar from "./pages/Reservar";
 import MisReservas from "./pages/MisReservas";
+import Chat from "./pages/ChatG";
 import "./styles/resenas.scss";
 
 
@@ -22,6 +23,7 @@ function App() {
       <Route path="/tutorias" element={<Explorar />} />
       <Route path="/reservar/:id" element={<Reservar />} />
       <Route path="/mis-reservas" element={<MisReservas />} />
+      <Route path="/chat/:reservaId" element={<Chat />} />
     </Routes>
   );
 }

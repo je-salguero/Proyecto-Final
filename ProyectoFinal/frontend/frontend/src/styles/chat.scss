@@ -1,0 +1,80 @@
+$color-principal: #2d5bff;
+
+.chat {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+
+  &__encabezado {
+    padding: 16px;
+    background: $color-principal;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 { margin: 0; font-size: 1.2rem; }
+    button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+  }
+
+  &__mensajes {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f8f9fa;
+  }
+
+  &__vacio { text-align: center; color: #888; margin-top: auto; margin-bottom: auto; }
+
+  &__burbuja {
+    display: flex;
+    gap: 8px;
+    max-width: 80%;
+
+    img { width: 32px; height: 32px; border-radius: 50%; align-self: flex-end; }
+
+    &--mia {
+      align-self: flex-end;
+      .chat__contenido { background: $color-principal; color: white; border-radius: 12px 12px 0 12px; }
+      .chat__autor { display: none; }
+      small { color: rgba(255,255,255,0.7); }
+    }
+
+    &--otra {
+      align-self: flex-start;
+      .chat__contenido { background: white; color: #333; border-radius: 12px 12px 12px 0; border: 1px solid #eee; }
+      small { color: #888; }
+    }
+  }
+
+  &__contenido {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    
+    p { margin: 0 0 4px 0; font-size: 15px; word-break: break-word; }
+    small { font-size: 11px; align-self: flex-end; }
+  }
+
+  &__autor { font-size: 12px; font-weight: bold; margin-bottom: 2px; }
+
+  &__input {
+    display: flex;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #eee;
+
+    input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; margin-right: 8px; }
+    button { background: $color-principal; color: white; border: none; padding: 0 16px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+  }
+}

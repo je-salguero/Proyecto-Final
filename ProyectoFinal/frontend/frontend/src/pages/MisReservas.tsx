@@ -99,6 +99,10 @@ function MisReservas() {
             Cancelar
           </button>
         )}
+     
+        <button className="estudiante__secundario" onClick={() => navegar(`/chat/${reserva._id}`)}>
+          Abrir Chat
+        </button>
 
         {reserva.estado === "aceptada" &&
           reserva.sesiones.length > 0 &&

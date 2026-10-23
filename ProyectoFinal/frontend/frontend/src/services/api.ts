@@ -392,3 +392,15 @@ export async function fncObtenerDemandaCategorias(): Promise<DemandaCategoria[]>
 export async function fncObtenerReporteMensual(): Promise<ReporteMensual[]> {
   return await fncPeticionJson("/api/reportes/mensual");
 }
+
+export interface MensajeChat {
+  _id: string;
+  reserva: string;
+  emisor: { _id: string; nombre: string; foto: string };
+  texto: string;
+  createdAt: string;
+}
+
+export async function fncObtenerHistorialChat(reservaId: string): Promise<MensajeChat[]> {
+  return await fncPeticionJson("/api/chat/" + reservaId);
+}

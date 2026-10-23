@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App";
 import "./styles/global.scss";
 import "./styles/resenas.scss";
+import "./styles/chat.scss";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
